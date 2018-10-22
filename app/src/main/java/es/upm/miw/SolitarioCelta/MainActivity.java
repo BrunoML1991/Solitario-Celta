@@ -89,6 +89,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.preferences:
                 startActivity(new Intent(this, SCeltaPreferences.class));
                 return true;
+            case R.id.restart:
+                mJuego.reiniciar();
+                this.mostrarTablero();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
