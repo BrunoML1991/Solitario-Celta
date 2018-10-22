@@ -11,9 +11,11 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -90,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    public void saveGame() {
+    private void saveGame() {
         try {
             FileOutputStream fos = openFileOutput(fichero, Context.MODE_PRIVATE);
             fos.write(mJuego.serializaTablero().getBytes());
@@ -100,6 +102,20 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             Log.i("INFO","Escribir el fichero no ha sido posible");
         }
+    }
+
+    public String resumeGame (){
+        try {
+            BufferedReader fin = new BufferedReader(new InputStreamReader(openFileInput(fichero)));
+            String linea = fin.readLine();
+            fin.close();
+            return linea;
+        } catch (FileNotFoundException e) {
+            Log.i("INFO","File not found");
+        } catch (IOException e) {
+            Log.i("INFO","Escribir el fichero no ha sido posible");
+        }
+        return null;
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -116,6 +132,14 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.save_game:
                 this.saveGame();
+                return true;
+            case R.id.resume_game:
+                if (mJuego.isGameIniciated()){
+                    new ResumeDialogFragment().show(getFragmentManager(),"ALERT DIALOG");
+                }else {
+                    mJuego.deserializaTablero(this.resumeGame());
+                    this.mostrarTablero();
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);

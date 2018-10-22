@@ -13,6 +13,7 @@
     <string name="preferencesText">Ajustes</string>
     <string name="restart">Reiniciar juego</string>
     <string name="save_game">Guardar Partida</string>
+    <string name="resume_game">Recuperar partida</string>
 
     <!-- Diálogo Final -->
     <string name="txtDialogoFinalTitulo">Fin del juego</string>
@@ -22,5 +23,8 @@
 
     <!-- Ficheros -->
     <string name="save_file">savedData.txt</string>
+
+    <!-- Diálogo de recuperación de partida -->
+    <string name="resume_message">¿Desea recuperar la partida aunque haya empezado una nueva?</string>
 
 </resources>
