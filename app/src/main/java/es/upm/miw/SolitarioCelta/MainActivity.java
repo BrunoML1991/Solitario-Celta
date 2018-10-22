@@ -1,16 +1,24 @@
 package es.upm.miw.SolitarioCelta;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioButton;
+import android.widget.TextView;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
 	JuegoCelta mJuego;
+	private String fichero;
     private final String CLAVE_TABLERO = "TABLERO_SOLITARIO_CELTA";
 
 	private final int[][] ids = {
@@ -27,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        fichero = getString(R.string.save_file);
         mJuego = new JuegoCelta();
         mostrarTablero();
     }
@@ -81,6 +90,18 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    public void saveGame() {
+        try {
+            FileOutputStream fos = openFileOutput(fichero, Context.MODE_PRIVATE);
+            fos.write(mJuego.serializaTablero().getBytes());
+            fos.close();
+        } catch (FileNotFoundException e) {
+            Log.i("INFO","File not found");
+        } catch (IOException e) {
+            Log.i("INFO","Escribir el fichero no ha sido posible");
+        }
+    }
+
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menuAbout:
@@ -92,6 +113,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.restart:
                 mJuego.reiniciar();
                 this.mostrarTablero();
+                return true;
+            case R.id.save_game:
+                this.saveGame();
                 return true;
         }
         return super.onOptionsItemSelected(item);
