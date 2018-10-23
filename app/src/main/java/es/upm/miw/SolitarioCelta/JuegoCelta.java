@@ -184,4 +184,5 @@ class JuegoCelta {
         }
         return contador;
     }
+
 }
