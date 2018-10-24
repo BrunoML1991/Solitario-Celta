@@ -37,11 +37,6 @@ public class GamePunctuationRepository extends SQLiteOpenHelper {
          onCreate(db);
     }
 
-    public long count() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        return DatabaseUtils.queryNumEntries(db, DATABASE_NAME);
-    }
-
     public void insert(GamePunctuation gamePunctuation) {
         SQLiteDatabase db = this.getWritableDatabase();
         String insert = "INSERT INTO " + DATABASE_NAME + " (" +
@@ -50,7 +45,7 @@ public class GamePunctuationRepository extends SQLiteOpenHelper {
                 GamePunctuationEntry.COLUMN_NAME_DATETIME + "," +
                 GamePunctuationEntry.COLUMN_NAME_MISSINGPIECES + ") "+
                 "VALUES (" +
-                gamePunctuation.getId() + ", " +
+                null + ", " +
                 "'" + gamePunctuation.getPlayerName() + "'" + ", " +
                 "'" + gamePunctuation.getDateTime() + "'" + ", " +
                 gamePunctuation.getPieces() + ")";
