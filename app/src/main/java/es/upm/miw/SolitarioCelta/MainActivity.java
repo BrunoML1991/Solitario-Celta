@@ -2,14 +2,15 @@ package es.upm.miw.SolitarioCelta;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioButton;
-import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -19,25 +20,28 @@ import java.io.InputStreamReader;
 
 public class MainActivity extends AppCompatActivity {
 
-	JuegoCelta mJuego;
-	private String fichero;
+    JuegoCelta mJuego;
+    private String fichero;
+    SharedPreferences preferences;
     private final String CLAVE_TABLERO = "TABLERO_SOLITARIO_CELTA";
+    GamePunctuationRepository db = new GamePunctuationRepository(this);
 
-	private final int[][] ids = {
-		{       0,        0, R.id.p02, R.id.p03, R.id.p04,        0,        0},
-        {       0,        0, R.id.p12, R.id.p13, R.id.p14,        0,        0},
-        {R.id.p20, R.id.p21, R.id.p22, R.id.p23, R.id.p24, R.id.p25, R.id.p26},
-        {R.id.p30, R.id.p31, R.id.p32, R.id.p33, R.id.p34, R.id.p35, R.id.p36},
-        {R.id.p40, R.id.p41, R.id.p42, R.id.p43, R.id.p44, R.id.p45, R.id.p46},
-        {       0,        0, R.id.p52, R.id.p53, R.id.p54,        0,        0},
-        {       0,        0, R.id.p62, R.id.p63, R.id.p64,        0,        0}
-	};
+    private final int[][] ids = {
+            {0, 0, R.id.p02, R.id.p03, R.id.p04, 0, 0},
+            {0, 0, R.id.p12, R.id.p13, R.id.p14, 0, 0},
+            {R.id.p20, R.id.p21, R.id.p22, R.id.p23, R.id.p24, R.id.p25, R.id.p26},
+            {R.id.p30, R.id.p31, R.id.p32, R.id.p33, R.id.p34, R.id.p35, R.id.p36},
+            {R.id.p40, R.id.p41, R.id.p42, R.id.p43, R.id.p44, R.id.p45, R.id.p46},
+            {0, 0, R.id.p52, R.id.p53, R.id.p54, 0, 0},
+            {0, 0, R.id.p62, R.id.p63, R.id.p64, 0, 0}
+    };
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         fichero = getString(R.string.save_file);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
         mJuego = new JuegoCelta();
         mostrarTablero();
     }
@@ -56,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
         mostrarTablero();
         if (mJuego.juegoTerminado()) {
-            new AlertDialogFragment().show(getFragmentManager(), "ALERT DIALOG");
+            this.juegoTerminadoGuardado();
         }
     }
 
@@ -98,22 +102,22 @@ public class MainActivity extends AppCompatActivity {
             fos.write(mJuego.serializaTablero().getBytes());
             fos.close();
         } catch (FileNotFoundException e) {
-            Log.i("INFO","File not found");
+            Log.i("INFO", "File not found");
         } catch (IOException e) {
-            Log.i("INFO","Escribir el fichero no ha sido posible");
+            Log.i("INFO", "Escribir el fichero no ha sido posible");
         }
     }
 
-    public String resumeGame (){
+    public String resumeGame() {
         try {
             BufferedReader fin = new BufferedReader(new InputStreamReader(openFileInput(fichero)));
             String linea = fin.readLine();
             fin.close();
             return linea;
         } catch (FileNotFoundException e) {
-            Log.i("INFO","File not found");
+            Log.i("INFO", "File not found");
         } catch (IOException e) {
-            Log.i("INFO","Escribir el fichero no ha sido posible");
+            Log.i("INFO", "Escribir el fichero no ha sido posible");
         }
         return null;
     }
@@ -128,15 +132,16 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.restart:
                 mJuego.reiniciar();
+                new PlayerNameDialogFragment().show(getFragmentManager(), "ALERT DIALOG");
                 this.mostrarTablero();
                 return true;
             case R.id.save_game:
                 this.saveGame();
                 return true;
             case R.id.resume_game:
-                if (mJuego.isGameIniciated()){
-                    new ResumeDialogFragment().show(getFragmentManager(),"ALERT DIALOG");
-                }else {
+                if (mJuego.isGameIniciated()) {
+                    new ResumeDialogFragment().show(getFragmentManager(), "ALERT DIALOG");
+                } else {
                     mJuego.deserializaTablero(this.resumeGame());
                     this.mostrarTablero();
                 }
@@ -144,4 +149,9 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void juegoTerminadoGuardado() {
+        new PlayerNameDialogFragment().show(getFragmentManager(), "ALERT DIALOG");
+    }
+
 }
