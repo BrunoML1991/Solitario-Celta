@@ -132,14 +132,13 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.restart:
                 mJuego.reiniciar();
-                new PlayerNameDialogFragment().show(getFragmentManager(), "ALERT DIALOG");
                 this.mostrarTablero();
                 return true;
             case R.id.save_game:
                 this.saveGame();
                 return true;
             case R.id.resume_game:
-                if (mJuego.isGameIniciated()) {
+                if (this.isGameIniciated()) {
                     new ResumeDialogFragment().show(getFragmentManager(), "ALERT DIALOG");
                 } else {
                     mJuego.deserializaTablero(this.resumeGame());
@@ -152,6 +151,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void juegoTerminadoGuardado() {
         new PlayerNameDialogFragment().show(getFragmentManager(), "ALERT DIALOG");
+    }
+
+    public boolean isGameIniciated() {
+        if (mJuego.serializaTablero().equals(mJuego.tableroInicialSerializado)||
+                mJuego.serializaTablero().equals(this.resumeGame())) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
 }
