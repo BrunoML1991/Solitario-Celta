@@ -94,7 +94,6 @@ public class GamePunctuationRepository extends SQLiteOpenHelper {
                         GamePunctuationEntry.COLUMN_NAME_DATETIME + " TEXT," +
                         GamePunctuationEntry.COLUMN_NAME_MISSINGPIECES + " INTEGER)";
         db.execSQL(SQL_CREATE_ENTRIES);
-        db.close();
     }
 
 }
