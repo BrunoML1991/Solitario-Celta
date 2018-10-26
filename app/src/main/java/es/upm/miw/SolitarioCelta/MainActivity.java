@@ -14,6 +14,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -99,10 +100,16 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    private void saveGame() {
+    private void saveGame(int position) {
+        this.createFileIfNotExist();
         try {
+            String [] saves = this.savedGames();
             FileOutputStream fos = openFileOutput(fichero, Context.MODE_PRIVATE);
-            fos.write(mJuego.serializaTablero().getBytes());
+            saves [position] = mJuego.serializaTablero();
+            for (int i = 0;i<3;i++){
+                fos.write(saves[i].getBytes());
+                fos.write('\n');
+            }
             fos.close();
         } catch (FileNotFoundException e) {
             Log.i("INFO", "File not found");
@@ -111,18 +118,43 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public String resumeGame() {
+    private String [] savedGames (){
         try {
             BufferedReader fin = new BufferedReader(new InputStreamReader(openFileInput(fichero)));
-            String linea = fin.readLine();
+            String[] saves = new String[3];
+            for (int i = 0; i < 3; i++) {
+                saves[i] = fin.readLine();
+            }
             fin.close();
-            return linea;
-        } catch (FileNotFoundException e) {
+            return saves;
+        }catch (FileNotFoundException e) {
             Log.i("INFO", "File not found");
         } catch (IOException e) {
             Log.i("INFO", "Escribir el fichero no ha sido posible");
         }
         return null;
+    }
+
+    private void createFileIfNotExist(){
+        File f = new File("data/data/es.upm.miw.SolitarioCelta/files/"+fichero);
+        if(!f.exists()){
+            try {
+                FileOutputStream fos = openFileOutput(fichero, Context.MODE_PRIVATE);
+                for (int i = 0; i<3;i++){
+                    fos.write(mJuego.tableroInicialSerializado.getBytes());
+                    fos.write('\n');
+                }
+                fos.close();
+            } catch (FileNotFoundException e) {
+                Log.i("INFO", "File not found");
+            } catch (IOException e) {
+                Log.i("INFO", "Escribir el fichero no ha sido posible");
+            }
+        }
+    }
+
+    public String resumeGame(int position) {
+        return this.savedGames()[position];
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -137,14 +169,36 @@ public class MainActivity extends AppCompatActivity {
                 mJuego.reiniciar();
                 this.mostrarTablero();
                 return true;
-            case R.id.save_game:
-                this.saveGame();
+            case R.id.save_game_1:
+                this.saveGame(0);
                 return true;
-            case R.id.resume_game:
-                if (this.isGameIniciated()) {
-                    new ResumeDialogFragment().show(getFragmentManager(), "ALERT DIALOG");
+            case R.id.save_game_2:
+                this.saveGame(1);
+                return true;
+            case R.id.save_game_3:
+                this.saveGame(2);
+                return true;
+            case R.id.resume_game_1:
+                if (this.isGameIniciated(0)) {
+                    new ResumeDialogFragment(0).show(getFragmentManager(), "ALERT DIALOG");
                 } else {
-                    mJuego.deserializaTablero(this.resumeGame());
+                    mJuego.deserializaTablero(this.resumeGame(0));
+                    this.mostrarTablero();
+                }
+                return true;
+            case R.id.resume_game_2:
+                if (this.isGameIniciated(1)) {
+                    new ResumeDialogFragment(1).show(getFragmentManager(), "ALERT DIALOG");
+                } else {
+                    mJuego.deserializaTablero(this.resumeGame(1));
+                    this.mostrarTablero();
+                }
+                return true;
+            case R.id.resume_game_3:
+                if (this.isGameIniciated(2)) {
+                    new ResumeDialogFragment(2).show(getFragmentManager(), "ALERT DIALOG");
+                } else {
+                    mJuego.deserializaTablero(this.resumeGame(2));
                     this.mostrarTablero();
                 }
                 return true;
@@ -159,9 +213,9 @@ public class MainActivity extends AppCompatActivity {
         new PlayerNameDialogFragment().show(getFragmentManager(), "ALERT DIALOG");
     }
 
-    public boolean isGameIniciated() {
+    public boolean isGameIniciated(int position) {
         if (mJuego.serializaTablero().equals(mJuego.tableroInicialSerializado) ||
-                mJuego.serializaTablero().equals(this.resumeGame())) {
+                mJuego.serializaTablero().equals(this.resumeGame(position))) {
             return false;
         } else {
             return true;

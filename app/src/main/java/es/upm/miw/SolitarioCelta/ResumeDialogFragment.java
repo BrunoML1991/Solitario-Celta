@@ -7,6 +7,13 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 public class ResumeDialogFragment extends DialogFragment {
+
+    int position;
+
+    public ResumeDialogFragment (int position){
+        this.position = position;
+    }
+
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		final MainActivity main = (MainActivity) getActivity();
@@ -20,7 +27,7 @@ public class ResumeDialogFragment extends DialogFragment {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                main.mJuego.deserializaTablero(main.resumeGame());
+                                main.mJuego.deserializaTablero(main.resumeGame(position));
                                 main.mostrarTablero();
                             }
                         }
