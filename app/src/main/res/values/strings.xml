@@ -13,6 +13,7 @@
     <string name="preferencesText">Ajustes</string>
     <string name="restart">Reiniciar juego</string>
     <string name="showBestPunctuations">Mejores puntuaciones</string>
+    <string name="pieces_remain">Fichas</string>
 
     <!-- Diálogo Final -->
     <string name="txtDialogoFinalTitulo">Fin del juego</string>
@@ -20,8 +21,11 @@
     <string name="txtDialogoFinalAfirmativo">Sí</string>
     <string name="txtDialogoFinalNegativo">No</string>
 
-    <!-- Ficheros -->
+    <!-- Save Game -->
     <string name="save_file">savedData.txt</string>
+    <string name="slot_1">Ranura 1</string>
+    <string name="slot_2">Ranura 2</string>
+    <string name="slot_3">Ranura 3</string>
 
     <!-- Otros diálogos -->
     <string name="save_game">Guardar Partida</string>
