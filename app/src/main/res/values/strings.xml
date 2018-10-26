@@ -12,6 +12,7 @@
     <string name="secondCategoryPrefTitle">Ajustes del juego</string>
     <string name="preferencesText">Ajustes</string>
     <string name="restart">Reiniciar juego</string>
+    <string name="showBestPunctuations">Mejores puntuaciones</string>
 
     <!-- Diálogo Final -->
     <string name="txtDialogoFinalTitulo">Fin del juego</string>
@@ -26,6 +27,9 @@
     <string name="save_game">Guardar Partida</string>
     <string name="resume_game">Recuperar partida</string>
     <string name="resume_message">¿Desea recuperar la partida aunque haya empezado una nueva?</string>
+    <string name="delete_information">Borrar informacion</string>
+    <string name="delete_information_message">¿Desea borrar la informacion del ranking?</string>
+    <string name="delete_from_db">Borrar datos</string>
 
 
     <!-- Preferencias -->
@@ -35,5 +39,15 @@
     <string name="player_name">Nombre del jugador</string>
     <string name="player_name_message">¿Que nombre de jugador desea usar?</string>
     <string name="save">Guardar</string>
+
+    <!-- Column Names -->
+    <string name="best_punctuations">Mejores puntuaciones</string>
+    <string name="column_name_id">Id</string>
+    <string name="column_name_player_name">Nombre</string>
+    <string name="column_name_date_time">Fecha de la partida</string>
+    <string name="column_name_missing_pieces">Piezas</string>
+
+
+
 
 </resources>

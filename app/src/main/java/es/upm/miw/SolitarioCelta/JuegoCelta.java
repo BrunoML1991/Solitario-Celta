@@ -4,7 +4,7 @@ class JuegoCelta {
     static final int TAMANIO = 7;
     private static final int NUM_MOVIMIENTOS = 4;
     private int[][] tablero;
-    private String tableroInicialSerializado;
+    protected String tableroInicialSerializado;
     private static final int[][] TABLERO_INICIAL = { // Posiciones válidas del tablero
             {0, 0, 1, 1, 1, 0, 0},
             {0, 0, 1, 1, 1, 0, 0},
@@ -163,14 +163,6 @@ class JuegoCelta {
         tablero[TAMANIO / 2][TAMANIO / 2] = 0;   // posición central
 
         estadoJuego = Estado.ESTADO_SELECCION_FICHA;
-    }
-
-    public boolean isGameIniciated() {
-        if (serializaTablero().equals(tableroInicialSerializado)) {
-            return false;
-        } else {
-            return true;
-        }
     }
 
     public int missingPieces() {
