@@ -13,6 +13,7 @@
     <string name="preferencesText">Ajustes</string>
     <string name="restart">Reiniciar juego</string>
     <string name="showBestPunctuations">Mejores puntuaciones</string>
+    <string name="pieces_remain">Fichas</string>
 
     <!-- Diálogo Final -->
     <string name="txtDialogoFinalTitulo">Fin del juego</string>

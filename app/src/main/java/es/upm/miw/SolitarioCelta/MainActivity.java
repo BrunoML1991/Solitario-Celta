@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -69,13 +70,15 @@ public class MainActivity extends AppCompatActivity {
      */
     public void mostrarTablero() {
         RadioButton button;
-
-        for (int i = 0; i < JuegoCelta.TAMANIO; i++)
+        TextView remaining = findViewById(R.id.remaining);
+        for (int i = 0; i < JuegoCelta.TAMANIO; i++) {
             for (int j = 0; j < JuegoCelta.TAMANIO; j++)
                 if (ids[i][j] != 0) {
                     button = findViewById(ids[i][j]);
                     button.setChecked(mJuego.obtenerFicha(i, j) == 1);
                 }
+        }
+        remaining.setText(String.valueOf(mJuego.missingPieces()));
     }
 
     public void onSaveInstanceState(Bundle outState) {
@@ -145,8 +148,8 @@ public class MainActivity extends AppCompatActivity {
                     this.mostrarTablero();
                 }
                 return true;
-            case  R.id.bestPunctuations:
-                startActivity(new Intent(this,ShowBestPunctuations.class));
+            case R.id.bestPunctuations:
+                startActivity(new Intent(this, ShowBestPunctuations.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -157,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean isGameIniciated() {
-        if (mJuego.serializaTablero().equals(mJuego.tableroInicialSerializado)||
+        if (mJuego.serializaTablero().equals(mJuego.tableroInicialSerializado) ||
                 mJuego.serializaTablero().equals(this.resumeGame())) {
             return false;
         } else {

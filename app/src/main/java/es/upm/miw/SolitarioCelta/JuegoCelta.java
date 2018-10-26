@@ -1,5 +1,7 @@
 package es.upm.miw.SolitarioCelta;
 
+import android.widget.TextView;
+
 class JuegoCelta {
     static final int TAMANIO = 7;
     private static final int NUM_MOVIMIENTOS = 4;
