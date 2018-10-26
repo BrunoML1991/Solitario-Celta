@@ -20,6 +20,10 @@
         android:orderInCategory="10"
         android:title="@string/resume_game"/>
 
+    <item android:id="@+id/bestPunctuations"
+        android:orderInCategory="30"
+        android:title="@string/showBestPunctuations"/>
+
     <item
         android:id="@+id/preferences"
         android:icon="@android:drawable/ic_menu_preferences"

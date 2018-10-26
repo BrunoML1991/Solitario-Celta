@@ -145,6 +145,9 @@ public class MainActivity extends AppCompatActivity {
                     this.mostrarTablero();
                 }
                 return true;
+            case  R.id.bestPunctuations:
+                startActivity(new Intent(this,ShowBestPunctuations.class));
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

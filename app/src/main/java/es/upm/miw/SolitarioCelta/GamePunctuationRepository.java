@@ -1,9 +1,12 @@
 package es.upm.miw.SolitarioCelta;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
 
 import static es.upm.miw.SolitarioCelta.GamePunctuationContract.GamePunctuationEntry;
 
@@ -51,6 +54,33 @@ public class GamePunctuationRepository extends SQLiteOpenHelper {
                 gamePunctuation.getPieces() + ")";
         db.execSQL(insert);
         db.close();
+    }
+
+    public ArrayList<GamePunctuation> getAll() {
+        String consultaSQL = "SELECT * FROM " + GamePunctuationEntry.TABLE_NAME;
+        ArrayList<GamePunctuation> listaPuntuaciones = new ArrayList<>();
+
+        // Accedo a la DB en modo lectura
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(consultaSQL, null);
+
+        if (cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                GamePunctuation punctuation = new GamePunctuation(
+                        cursor.getString(cursor.getColumnIndex(GamePunctuationEntry.COLUMN_NAME_PLAYERNAME)),
+                        cursor.getString(cursor.getColumnIndex(GamePunctuationEntry.COLUMN_NAME_DATETIME)),
+                        cursor.getInt(cursor.getColumnIndex(GamePunctuationEntry.COLUMN_NAME_MISSINGPIECES))
+                );
+                punctuation.setId(cursor.getInt(cursor.getColumnIndex(GamePunctuationEntry.COLUMN_NAME_ID)));
+                listaPuntuaciones.add(punctuation);
+                cursor.moveToNext();
+            }
+        }
+
+        cursor.close();
+        db.close();
+
+        return listaPuntuaciones;
     }
 
 }

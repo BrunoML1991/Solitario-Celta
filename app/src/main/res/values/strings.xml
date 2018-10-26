@@ -12,6 +12,7 @@
     <string name="secondCategoryPrefTitle">Ajustes del juego</string>
     <string name="preferencesText">Ajustes</string>
     <string name="restart">Reiniciar juego</string>
+    <string name="showBestPunctuations">Mejores puntuaciones</string>
 
     <!-- Diálogo Final -->
     <string name="txtDialogoFinalTitulo">Fin del juego</string>
