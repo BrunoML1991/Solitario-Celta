@@ -2,6 +2,7 @@ package es.upm.miw.SolitarioCelta;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,12 +46,15 @@ public class GamePunctuationAdapter extends ArrayAdapter {
 
             TextView tvPlayerName = convertView.findViewById(R.id.tvListadoGamePunctuarionPlayerName);
             tvPlayerName.setText(punctuation.getPlayerName());
+            tvPlayerName.setGravity(Gravity.CENTER);
 
             TextView tvDateTime = convertView.findViewById(R.id.tvListadoGamePunctuarionDateTime);
-            tvDateTime.setText(String.valueOf(punctuation.getDateTime()));
+            tvDateTime.setText(String.valueOf(punctuation.getDateTime().split("GMT")[0]));
+            tvDateTime.setGravity(Gravity.CENTER);
 
             TextView tvMissingPieces = convertView.findViewById(R.id.tvListadoGamePunctuarionMissingPieces);
             tvMissingPieces.setText(Integer.toString(punctuation.getPieces()));
+            tvMissingPieces.setGravity(Gravity.CENTER);
         }
 
         return convertView;

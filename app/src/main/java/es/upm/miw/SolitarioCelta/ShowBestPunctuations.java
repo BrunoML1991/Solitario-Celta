@@ -3,6 +3,7 @@ package es.upm.miw.SolitarioCelta;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -26,5 +27,10 @@ public class ShowBestPunctuations extends AppCompatActivity {
                 punctuations,
                 R.layout.layout_punctuations_list
         ));
+    }
+
+
+    public void deleteBD (View view){
+        new DeleteInformationDialogFragment().show(getFragmentManager(),"DIALOG");
     }
 }

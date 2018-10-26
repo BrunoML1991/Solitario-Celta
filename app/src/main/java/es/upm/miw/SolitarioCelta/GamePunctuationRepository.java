@@ -23,13 +23,7 @@ public class GamePunctuationRepository extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        final String SQL_CREATE_ENTRIES =
-                "CREATE TABLE " + GamePunctuationEntry.TABLE_NAME + " (" +
-                        GamePunctuationEntry.COLUMN_NAME_ID + " INTEGER PRIMARY KEY," +
-                        GamePunctuationEntry.COLUMN_NAME_PLAYERNAME + " TEXT," +
-                        GamePunctuationEntry.COLUMN_NAME_DATETIME + " TEXT," +
-                        GamePunctuationEntry.COLUMN_NAME_MISSINGPIECES + " INTEGER)";
-        db.execSQL(SQL_CREATE_ENTRIES);
+        this.createTable(db);
     }
 
     @Override
@@ -57,7 +51,8 @@ public class GamePunctuationRepository extends SQLiteOpenHelper {
     }
 
     public ArrayList<GamePunctuation> getAll() {
-        String consultaSQL = "SELECT * FROM " + GamePunctuationEntry.TABLE_NAME;
+        String consultaSQL = "SELECT * FROM " + GamePunctuationEntry.TABLE_NAME+
+                " ORDER BY "+GamePunctuationEntry.COLUMN_NAME_MISSINGPIECES;
         ArrayList<GamePunctuation> listaPuntuaciones = new ArrayList<>();
 
         // Accedo a la DB en modo lectura
@@ -81,6 +76,25 @@ public class GamePunctuationRepository extends SQLiteOpenHelper {
         db.close();
 
         return listaPuntuaciones;
+    }
+
+    public void deleteInformation (){
+        SQLiteDatabase db = this.getWritableDatabase();
+        final String SQL_DELETE_ENTRIES =
+                "DROP TABLE IF EXISTS " + GamePunctuationEntry.TABLE_NAME;
+        db.execSQL(SQL_DELETE_ENTRIES);
+        this.createTable(db);
+    }
+
+    public void createTable (SQLiteDatabase db){
+        final String SQL_CREATE_ENTRIES =
+                "CREATE TABLE " + GamePunctuationEntry.TABLE_NAME + " (" +
+                        GamePunctuationEntry.COLUMN_NAME_ID + " INTEGER PRIMARY KEY," +
+                        GamePunctuationEntry.COLUMN_NAME_PLAYERNAME + " TEXT," +
+                        GamePunctuationEntry.COLUMN_NAME_DATETIME + " TEXT," +
+                        GamePunctuationEntry.COLUMN_NAME_MISSINGPIECES + " INTEGER)";
+        db.execSQL(SQL_CREATE_ENTRIES);
+        db.close();
     }
 
 }
